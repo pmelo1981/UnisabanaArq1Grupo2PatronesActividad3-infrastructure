@@ -9,6 +9,10 @@ spec:
     repoURL: https://github.com/pmelo1981/UnisabanaArq1Grupo2PatronesActividad3-productapi
     path: helm
     targetRevision: main
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-acr.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: productapi
