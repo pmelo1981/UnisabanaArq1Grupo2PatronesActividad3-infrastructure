@@ -110,7 +110,18 @@ kubectl get application -n argocd
 
 ## Acceso a ArgoCD UI
 
-### Opción 1: Port-Forward (más simple)
+### Opción 1: Acceso directo con LoadBalancer (RECOMENDADO)
+
+**URL:**
+```
+https://20.112.202.75
+```
+
+**Credenciales:**
+- Usuario: `admin`
+- Contraseña: Ver abajo
+
+### Opción 2: Port-Forward (si LoadBalancer no está disponible)
 
 ```powershell
 kubectl port-forward svc/argocd-server -n argocd 8080:443
@@ -119,22 +130,6 @@ kubectl port-forward svc/argocd-server -n argocd 8080:443
 Luego abre en tu navegador:
 ```
 https://localhost:8080
-```
-
-### Opción 2: LoadBalancer (acceso desde cualquier lugar)
-
-```powershell
-kubectl patch svc argocd-server -n argocd -p '{"spec":{"type":"LoadBalancer"}}'
-
-# Espera ~1 min y obtén la IP
-kubectl get svc argocd-server -n argocd
-
-# Busca la columna EXTERNAL-IP
-```
-
-Luego accede a:
-```
-https://<EXTERNAL-IP>
 ```
 
 ---
@@ -146,19 +141,29 @@ https://<EXTERNAL-IP>
 admin
 ```
 
-### Contraseña
+### Contraseña (Opción 1: Copia directa)
 
-**Opción 1: Desde terminal (recomendado)**
-
-```powershell
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+```
+nZN39f6DWSXmNsQ2
 ```
 
-**Copia la contraseña que aparece y úsala en la UI.**
+**IMPORTANTE:** Esta es la contraseña inicial. Se recomienda cambiarla después de acceder (ver abajo).
 
-### Cambiar contraseña (opcional)
+### Contraseña (Opción 2: Obtener desde terminal)
 
-Una vez en la UI:
+```powershell
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | powershell -Command {[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String((Read-Host)))} <<< (Read-Host)
+```
+
+O más simple:
+
+```powershell
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}'; echo ""
+```
+
+### Cambiar contraseña (recomendado)
+
+Una vez conectado en la UI:
 1. Click en el usuario (arriba a la derecha)
 2. "Account"
 3. "Change password"
