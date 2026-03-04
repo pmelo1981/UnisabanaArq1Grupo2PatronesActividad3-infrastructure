@@ -4,7 +4,7 @@
 
 ---
 
-## ?? Estructura
+## Estructura
 
 ```
 argocd/
@@ -17,23 +17,27 @@ README.md                              # Este archivo
 
 ---
 
-## ?? GitOps Workflow
+## GitOps Workflow
 
 ```
-ProductAPI Repo (código)
-    ?
-GitHub Actions: Build ? Test ? Docker Push ? Update values-acr.yaml
-    ?
+ProductAPI Repo (codigo)
+    |
+    v
+GitHub Actions: Build -> Test -> Docker Push -> Update values-acr.yaml
+    |
+    v
 ArgoCD detecta cambio (polling cada 3 min)
-    ?
-Sincroniza helm/ ? Kubernetes
-    ?
-Deployment actualizado automáticamente en AKS ?
+    |
+    v
+Sincroniza helm/ -> Kubernetes
+    |
+    v
+Deployment actualizado automaticamente en AKS (exitoso)
 ```
 
 ---
 
-## ?? Requisitos Previos
+## Requisitos Previos
 
 Antes de usar este repo, asegúrate de tener:
 
@@ -55,7 +59,7 @@ Merged "productapi-aks" as current context in C:\Users\<user>\.kube\config
 
 ---
 
-## ?? Instalación
+## Instalacion
 
 ### Paso 1: Crear namespace de ArgoCD
 
@@ -78,7 +82,7 @@ Espera ~2 minutos a que se levante. Verifica con:
 
 ```powershell
 kubectl -n argocd get pods
-# Deberías ver pods en Running
+# Debería ver pods en Running
 ```
 
 ### Paso 3: Aplicar Application manifest (ProductAPI)
@@ -104,7 +108,7 @@ kubectl get application -n argocd
 
 ---
 
-## ?? Acceso a ArgoCD UI
+## Acceso a ArgoCD UI
 
 ### Opción 1: Port-Forward (más simple)
 
@@ -135,7 +139,7 @@ https://<EXTERNAL-IP>
 
 ---
 
-## ?? Credenciales de ArgoCD
+## Credenciales de ArgoCD
 
 ### Usuario
 ```
@@ -152,7 +156,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 
 **Copia la contraseña que aparece y úsala en la UI.**
 
-### Cambiar contraseña (optional)
+### Cambiar contraseña (opcional)
 
 Una vez en la UI:
 1. Click en el usuario (arriba a la derecha)
@@ -161,7 +165,7 @@ Una vez en la UI:
 
 ---
 
-## ?? Monitoreo
+## Monitoreo
 
 ### Ver todas las aplicaciones sincronizadas
 
@@ -196,12 +200,12 @@ kubectl -n productapi describe pods -l app=productapi | findstr "Image:"
 ### Ver logs de un pod
 
 ```powershell
-kubectl -n productapi logs -f deployment/productapi
+kubectl -n productapi logs -f deployment/productapi-productapi
 ```
 
 ---
 
-## ?? Testear Despliegue
+## Testear Despliegue
 
 ### Health check
 
@@ -221,65 +225,65 @@ kubectl -n productapi get all
 
 ---
 
-## ?? Troubleshooting
+## Troubleshooting
 
 | Problema | Comando para diagnosticar | Solución |
 |----------|----------|----------|
-| **ArgoCD pods no arrancan** | `kubectl -n argocd get pods` | Espera 2-3 min, luego `kubectl -n argocd logs <pod>` |
-| **ProductAPI OutOfSync** | `kubectl describe application productapi -n argocd` | `kubectl patch application productapi -n argocd -p '{"spec":{"syncPolicy":{}}}' --type merge` |
-| **Pod en CrashLoopBackOff** | `kubectl -n productapi logs <pod>` | Verificar configuración o imagen |
-| **No puedo acceder a ArgoCD UI** | `kubectl get svc argocd-server -n argocd` | Usa port-forward o espera IP de LoadBalancer |
-| **Cambios en ProductAPI no se sincronizan** | Verificar si ArgoCD está watching el repo | Espera 3 min (polling) o fuerza: `kubectl patch application productapi -n argocd -p '{"spec":{"source":{"repoURL":"<repo>"}}}' --type merge` |
+| ArgoCD pods no arrancan | kubectl -n argocd get pods | Espera 2-3 min, luego kubectl -n argocd logs <pod> |
+| ProductAPI OutOfSync | kubectl describe application productapi -n argocd | kubectl patch application productapi -n argocd -p '{"spec":{"syncPolicy":{}}}' --type merge |
+| Pod en CrashLoopBackOff | kubectl -n productapi logs <pod> | Verificar configuración o imagen |
+| No puedo acceder a ArgoCD UI | kubectl get svc argocd-server -n argocd | Usa port-forward o espera IP de LoadBalancer |
+| Cambios no se sincronizan | Verificar si ArgoCD watching el repo | Espera 3 min (polling) o fuerza sync |
 
 ---
 
-## ?? Comandos kubectl más útiles
+## Comandos kubectl más útiles
 
 ```powershell
-# ========== NAMESPACES ==========
-kubectl get namespaces                          # Ver todos
-kubectl get pods -n <namespace>                 # Pods en namespace
+# NAMESPACES
+kubectl get namespaces
+kubectl get pods -n <namespace>
 
-# ========== DEPLOYMENTS ==========
+# DEPLOYMENTS
 kubectl get deployments -n productapi
-kubectl describe deployment productapi -n productapi
-kubectl logs deployment/productapi -n productapi
+kubectl describe deployment productapi-productapi -n productapi
+kubectl logs deployment/productapi-productapi -n productapi
 
-# ========== SERVICES ==========
+# SERVICES
 kubectl get svc -n productapi
 kubectl describe svc productapi -n productapi
 
-# ========== INGRESS ==========
+# INGRESS
 kubectl get ingress -n productapi
 kubectl describe ingress productapi -n productapi
 
-# ========== EVENTOS ==========
+# EVENTOS
 kubectl get events -n productapi --sort-by='.lastTimestamp'
 
-# ========== EXEC EN POD ==========
+# EXEC EN POD
 kubectl exec -it <pod-name> -n productapi -- bash
 kubectl exec -it <pod-name> -n productapi -- sh
 
-# ========== LOGS ==========
+# LOGS
 kubectl logs <pod> -n productapi
-kubectl logs <pod> -n productapi -f                # Seguir en tiempo real
-kubectl logs <pod> -n productapi --tail=50        # Últimas 50 líneas
+kubectl logs <pod> -n productapi -f              # Seguir en tiempo real
+kubectl logs <pod> -n productapi --tail=50      # Ultimas 50 líneas
 ```
 
 ---
 
-## ?? Costos - Azure for Students
+## Costos - Azure for Students
 
-### Estimación Mensual
+### Estimacion Mensual
 
 | Recurso | Costo/Mes | Notas |
 |---------|-----------|-------|
-| **AKS Cluster** | ~$36 | 1 node Standard_B2s |
-| **ACR Basic** | ~$5 | Almacenamiento de images Docker |
-| **Load Balancer (Ingress)** | ~$3 | 1 Public IP para NGINX |
-| **Storage** | $0 | En-memory (sin persistencia) |
-| **Network Transfer** | ~$0-1 | Egress mínimo |
-| **TOTAL ESTIMADO** | **~$40-50/mes** | ? **CON Azure for Students: FREE** |
+| AKS Cluster | ~$36 | 1 node Standard_B2s |
+| ACR Basic | ~$5 | Almacenamiento de images Docker |
+| Load Balancer (Ingress) | ~$3 | 1 Public IP para NGINX |
+| Storage | $0 | En-memory (sin persistencia) |
+| Network Transfer | ~$0-1 | Egress minimo |
+| TOTAL ESTIMADO | ~$40-50/mes | CON Azure for Students: FREE |
 
 ### Costo Total del Proyecto (Estimado)
 
@@ -287,20 +291,20 @@ Asumiendo 3 meses de desarrollo:
 
 ```
 Escenario 1: SIN Azure for Students
-  AKS: $36 × 3 = $108
-  ACR: $5 × 3 = $15
-  Ingress: $3 × 3 = $9
-  ?????????????????
+  AKS: $36 x 3 = $108
+  ACR: $5 x 3 = $15
+  Ingress: $3 x 3 = $9
+  ??????????????????
   TOTAL: $132
 
 Escenario 2: CON Azure for Students
-  ?????????????????
-  TOTAL: $0 ?
+  ??????????????????
+  TOTAL: $0 (GRATIS)
 ```
 
 ---
 
-## ?? IMPORTANTE: Limpieza al Finalizar
+## IMPORTANTE: Limpieza al Finalizar
 
 **Cuando termines el assignment**, elimina TODOS los recursos para evitar cargos:
 
@@ -309,28 +313,28 @@ az group delete --name productapi-rg --yes
 ```
 
 **Esto borra:**
-- ? AKS Cluster
-- ? ACR (Container Registry)
-- ? Load Balancer
-- ? Virtual Networks
-- ? Storage
-- ? TODO
+- AKS Cluster
+- ACR (Container Registry)
+- Load Balancer
+- Virtual Networks
+- Storage
+- TODO
 
-**?? Si no lo haces, seguirá cobrando ~$40/mes**
-
----
-
-## ?? Referencias
-
-- **ProductAPI Repo**: https://github.com/pmelo1981/UnisabanaArq1Grupo2PatronesActividad3-productapi
-- **Personal Repo**: https://github.com/pmelo1981/UnisabanaArq1Grupo2PatronesActividad3
-- [ArgoCD Official Docs](https://argo-cd.readthedocs.io/)
-- [Kubernetes Docs](https://kubernetes.io/docs/)
-- [AKS Best Practices](https://learn.microsoft.com/en-us/azure/aks/)
-- [GitOps Best Practices](https://www.weave.works/technologies/gitops/)
+**ADVERTENCIA: Si no lo haces, seguirá cobrando ~$40/mes**
 
 ---
 
-**Estado:** ? Producción-Ready  
-**Última actualización:** 2024  
+## Referencias
+
+- ProductAPI Repo: https://github.com/pmelo1981/UnisabanaArq1Grupo2PatronesActividad3-productapi
+- Personal Repo: https://github.com/pmelo1981/UnisabanaArq1Grupo2PatronesActividad3
+- ArgoCD Official Docs: https://argo-cd.readthedocs.io/
+- Kubernetes Docs: https://kubernetes.io/docs/
+- AKS Best Practices: https://learn.microsoft.com/en-us/azure/aks/
+- GitOps Best Practices: https://www.weave.works/technologies/gitops/
+
+---
+
+**Estado:** Produccion-Ready  
+**Ultima actualizacion:** 2024  
 **Autor:** Universidad de Sabana - Arquitectura de Software
