@@ -1,23 +1,23 @@
-# ?? Infrastructure Repository - GitOps Central
+# Infrastructure Repository - GitOps Central
 
 **Repositorio para la gestión centralizada de despliegues Kubernetes usando ArgoCD y GitOps.**
 
 ---
 
-## ?? Estructura
+## Estructura
 
 ```
 argocd/
 ??? namespace.yaml                    # Crea namespace argocd
 ??? applications/
-    ??? productapi.yaml               # Application CRD (sincroniza ProductAPI repo)
+?   ??? productapi.yaml               # Application CRD (sincroniza ProductAPI repo)
 README.md                              # Este archivo
 .gitignore
 ```
 
 ---
 
-## ?? GitOps Workflow
+## GitOps Workflow
 
 ```
 ProductAPI Repo (código)
@@ -28,12 +28,12 @@ ArgoCD detecta cambio (polling cada 3 min)
     ?
 Sincroniza helm/ ? Kubernetes
     ?
-Deployment actualizado con new image
+Deployment actualizado con nueva imagen
 ```
 
 ---
 
-## ?? Costos - Azure for Students
+## Costos - Azure for Students
 
 ### Estimación Mensual
 
@@ -44,15 +44,15 @@ Deployment actualizado con new image
 | **Load Balancer (Ingress)** | ~$3 | 1 Public IP para NGINX |
 | **Storage** | $0 | En-memory (sin base de datos) |
 | **Network Transfer** | ~$0-1 | Egress mínimo |
-| **TOTAL ESTIMADO** | **~$40-50/mes** | ?? **CON Azure for Students: FREE** |
+| **TOTAL ESTIMADO** | **~$40-50/mes** | ? **CON Azure for Students: FREE** |
 
 ### Optimizaciones ya Implementadas
 
-? **1 node** (B2s micro - suficiente para microservicio simple)
-? **HPA** (2-5 replicas automáticas, no fixed)
-? **In-memory storage** (sin persistencia = sin costos)
-? **Service ClusterIP** (no IP extra)
-? **Ingress** (1 LoadBalancer compartida)
+? **1 node** (B2s micro - suficiente para microservicio simple)  
+? **HPA** (2-5 replicas automáticas, no fixed)  
+? **In-memory storage** (sin persistencia = sin costos)  
+? **Service ClusterIP** (no IP extra)  
+? **Ingress** (1 LoadBalancer compartida)  
 
 ### Costo Total del Proyecto (Estimado)
 
@@ -63,11 +63,11 @@ Escenario 1: SIN Azure for Students
   AKS: $36 × 3 = $108
   ACR: $5 × 3 = $15
   Ingress: $3 × 3 = $9
-  ????????????????
+  ?????????????????
   TOTAL: $132
 
 Escenario 2: CON Azure for Students (GRATIS)
-  ????????????????
+  ?????????????????
   TOTAL: $0 ?
 ```
 
@@ -84,7 +84,7 @@ az group delete --name productapi-rg --yes
 
 ---
 
-## ?? Instalación Rápida
+## Instalación Rápida
 
 ### Requisitos
 
@@ -108,7 +108,7 @@ kubectl apply -f argocd/applications/productapi.yaml
 kubectl get applications -n argocd
 ```
 
-### ?? Acceso a ArgoCD UI
+### Acceso a ArgoCD UI
 
 ```bash
 # Exponer ArgoCD (port-forward)
@@ -123,16 +123,16 @@ kubectl get svc argocd-server -n argocd   # ver IP externa
 |-------|-------|
 | **URL** | `https://localhost:8080` (port-forward) o `https://<EXTERNAL-IP>` |
 | **Usuario** | `admin` |
-| **Password** | Ejecutar el comando de abajo ?? |
+| **Password** | Ejecutar el comando de abajo ? |
 
 ```bash
 # Obtener password de admin
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 ```
 
 ---
 
-## ?? Verificación
+## Verificación
 
 ```bash
 # Ver todas las aplicaciones
@@ -151,7 +151,7 @@ curl http://INGRESS_IP/api/products/health
 
 ---
 
-## ?? Troubleshooting
+## Troubleshooting
 
 | Problema | Causa | Solución |
 |----------|-------|----------|
@@ -162,7 +162,7 @@ curl http://INGRESS_IP/api/products/health
 
 ---
 
-## ?? Referencias
+## Referencias
 
 - **ProductAPI Repo**: https://github.com/pmelo1981/UnisabanaArq1Grupo2PatronesActividad3-productapi
 - **Personal Repo**: https://github.com/pmelo1981/UnisabanaArq1Grupo2PatronesActividad3
