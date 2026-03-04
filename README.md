@@ -11,7 +11,6 @@ argocd/
 ??? namespace.yaml                    # Crea namespace argocd
 ??? applications/
     ??? productapi.yaml               # Application CRD (sincroniza ProductAPI repo)
-copilot_prompt.md                      # Guía para Copilot
 README.md                              # Este archivo
 .gitignore
 ```
@@ -109,6 +108,28 @@ kubectl apply -f argocd/applications/productapi.yaml
 kubectl get applications -n argocd
 ```
 
+### ?? Acceso a ArgoCD UI
+
+```bash
+# Exponer ArgoCD (port-forward)
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+
+# O si usas LoadBalancer:
+kubectl patch svc argocd-server -n argocd -p '{"spec":{"type":"LoadBalancer"}}'
+kubectl get svc argocd-server -n argocd   # ver IP externa
+```
+
+| Campo | Valor |
+|-------|-------|
+| **URL** | `https://localhost:8080` (port-forward) o `https://<EXTERNAL-IP>` |
+| **Usuario** | `admin` |
+| **Password** | Ejecutar el comando de abajo ?? |
+
+```bash
+# Obtener password de admin
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+```
+
 ---
 
 ## ?? Verificación
@@ -143,7 +164,6 @@ curl http://INGRESS_IP/api/products/health
 
 ## ?? Referencias
 
-- **copilot_prompt.md** - Guía detallada con comandos comunes
 - **ProductAPI Repo**: https://github.com/pmelo1981/UnisabanaArq1Grupo2PatronesActividad3-productapi
 - **Personal Repo**: https://github.com/pmelo1981/UnisabanaArq1Grupo2PatronesActividad3
 - [ArgoCD Docs](https://argo-cd.readthedocs.io/)
