@@ -332,7 +332,7 @@ az group delete --name productapi-rg --yes
 ## Referencias
 
 - **ProductAPI Repo**: https://github.com/pmelo1981/UnisabanaArq1Grupo2PatronesActividad3-productapi
-- **ProductAPI en vivo**: https://20.84.230.209
+- **ProductAPI en vivo**: https://productapi-unisabana.centralus.cloudapp.azure.com
 - **ArgoCD Official Docs**: https://argo-cd.readthedocs.io/
 - **Kubernetes Docs**: https://kubernetes.io/docs/
 - **AKS Best Practices**: https://learn.microsoft.com/en-us/azure/aks/
