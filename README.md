@@ -277,38 +277,6 @@ kubectl logs <pod> -n productapi --tail=50      # Ultimas 50 líneas
 
 ---
 
-## Costos - Azure for Students
-
-### Estimacion Mensual
-
-| Recurso | Costo/Mes | Notas |
-|---------|-----------|-------|
-| AKS Cluster | ~$36 | 1 node Standard_B2s |
-| ACR Basic | ~$5 | Almacenamiento de images Docker |
-| Load Balancer (Ingress) | ~$3 | 1 Public IP para NGINX |
-| Storage | $0 | En-memory (sin persistencia) |
-| Network Transfer | ~$0-1 | Egress minimo |
-| TOTAL ESTIMADO | ~$40-50/mes | CON Azure for Students: FREE |
-
-### Costo Total del Proyecto (Estimado)
-
-Asumiendo 3 meses de desarrollo:
-
-```
-Escenario 1: SIN Azure for Students
-  AKS: $36 x 3 = $108
-  ACR: $5 x 3 = $15
-  Ingress: $3 x 3 = $9
-  ??????????????????
-  TOTAL: $132
-
-Escenario 2: CON Azure for Students
-  ??????????????????
-  TOTAL: $0 (GRATIS)
-```
-
----
-
 ## IMPORTANTE: Limpieza al Finalizar
 
 **Cuando termines el assignment**, elimina TODOS los recursos para evitar cargos:
@@ -325,7 +293,7 @@ az group delete --name productapi-rg --yes
 - Storage
 - TODO
 
-**ADVERTENCIA: Si no lo haces, seguirá cobrando ~$40/mes**
+**ADVERTENCIA: Si no lo haces, seguirá cobrando recursos**
 
 ---
 
