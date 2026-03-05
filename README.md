@@ -200,6 +200,15 @@ kubectl -n productapi get pods
 
 ```powershell
 kubectl -n productapi describe pods -l app=productapi | findstr "Image:"
+
+### Imagen y ACR
+
+La imagen que el pipeline publica y despliega está en Azure Container Registry. Valores actuales usados en `helm/values-acr.yaml` del repo ProductAPI:
+
+- ACR repository: `productapiacrmpn.azurecr.io/productapi`
+- Imagen desplegada (tag): `0b09ff4`
+
+Si necesitas forzar el despliegue de otra imagen, actualiza `helm/values-acr.yaml` en el repo ProductAPI con el nuevo `image.tag` o haz que el pipeline lo haga automáticamente.
 ```
 
 ### Ver logs de un pod
@@ -219,7 +228,7 @@ kubectl -n productapi logs -f deployment/productapi-productapi
 kubectl get ingress -n productapi
 
 # Test del endpoint
-curl http://172.168.96.52/api/products/health
+curl http://productapi-mpn.centralus.cloudapp.azure.com/api/products/health
 ```
 
 ### Ver todos los recursos desplegados
@@ -300,7 +309,7 @@ az group delete --name productapi-rg --yes
 ## Referencias
 
 - **ProductAPI Repo**: https://github.com/pmelo1981/UnisabanaArq1Grupo2PatronesActividad3-productapi
-- **ProductAPI en vivo**: https://productapi-unisabana.centralus.cloudapp.azure.com
+- **ProductAPI en vivo**: http://productapi-mpn.centralus.cloudapp.azure.com
 - **ArgoCD Official Docs**: https://argo-cd.readthedocs.io/
 - **Kubernetes Docs**: https://kubernetes.io/docs/
 - **AKS Best Practices**: https://learn.microsoft.com/en-us/azure/aks/
