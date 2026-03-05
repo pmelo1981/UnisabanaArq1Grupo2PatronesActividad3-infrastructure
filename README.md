@@ -114,7 +114,7 @@ kubectl get application -n argocd
 
 **URL:**
 ```
-https://20.112.202.75
+https://172.169.162.125
 ```
 
 **Credenciales:**
@@ -144,7 +144,7 @@ admin
 ### Contraseña (Opción 1: Copia directa)
 
 ```
-nZN39f6DWSXmNsQ2
+im43l6M5zfRwkBcY
 ```
 
 **IMPORTANTE:** Esta es la contraseña inicial. Se recomienda cambiarla después de acceder (ver abajo).
