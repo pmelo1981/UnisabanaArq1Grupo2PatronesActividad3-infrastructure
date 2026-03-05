@@ -49,7 +49,7 @@ kubectl version --client
 az --version
 
 # 3. Descargar credenciales del cluster AKS
-az aks get-credentials --resource-group productapi-rg --name productapi-aks
+az aks get-credentials --resource-group productapi-rg-enterprise --name productapi-aks-mpn
 ```
 
 Si todo está ok, deberías ver:
@@ -219,7 +219,7 @@ kubectl -n productapi logs -f deployment/productapi-productapi
 kubectl get ingress -n productapi
 
 # Test del endpoint
-curl http://<INGRESS_IP>/api/products/health
+curl http://172.168.96.52/api/products/health
 ```
 
 ### Ver todos los recursos desplegados
