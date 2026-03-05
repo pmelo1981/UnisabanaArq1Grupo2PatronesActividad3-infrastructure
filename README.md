@@ -28,6 +28,9 @@ Imagen desplegada (ACR)
 productapiacrmpn.azurecr.io/productapi:0b09ff4
 ```
 
-Notas
-- El objetivo de este documento es proporcionar comprobaciones rápidas; para procedimientos completos consulte los scripts y documentación en `azure/`.
+***
+
+**Estado:** Produccion-Ready  
+**Ultima actualizacion:** 2023-10-05  
+**URL en vivo:** http://productapi-mpn.centralus.cloudapp.azure.com
 
