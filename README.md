@@ -18,9 +18,12 @@ Acceso a ArgoCD (opcional)
 ```bash
 # Obtener URL del servicio argocd-server
 kubectl -n argocd get svc argocd-server
+```
 
-# Obtener contraseña admin desde el secret en el cluster (no incluir el secreto en el repositorio)
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 --decode
+Credenciales (admin)
+```
+Usuario: admin
+Contraseña: im43l6M5zfRwkBcY
 ```
 
 Imagen desplegada (ACR)
