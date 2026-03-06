@@ -28,3 +28,6 @@ Imagen desplegada
 ```text
 productapiacrmpn.azurecr.io/productapi:0b09ff4
 
+
+**Ultima actualizacion:** 05/03/2026  
+**URL en vivo:** http://productapi-mpn.centralus.cloudapp.azurecrmpn.azurecrmpn.cloudapp.azurecom
