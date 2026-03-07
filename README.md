@@ -12,22 +12,21 @@ kubectl get pods -n productapi -o wide
 kubectl patch application productapi -n argocd -p '{"metadata":{"annotations":{"argocd.argoproj.io/refresh":"hard"}}}' --type=merge
 ```
 
-Acceso a ArgoCD
-```bash
-# Obtener URL del servicio argocd-server
-kubectl -n argocd get svc argocd-server
+Acceso a ArgoCD (ejemplo)
+```
+http://172.169.162.125
 ```
 
-Credenciales (admin)
+Credenciales (admin) — confirmar en entorno por seguridad
 ```
 Usuario: admin
-Contraseña: im43l6M5zfRwkBcY
+Contraseña: <ver infra docs>
 ```
 
-Imagen desplegada
-```text
-productapiacrmpn.azurecr.io/productapi:0b09ff4
+Imagen desplegada (según `helm/values-acr.yaml`)
+```
+productapiacrmpn.azurecr.io/productapi:8e69a02dc456a0b837aa6e7ba33330babe1f5c21
+```
 
-
-**Ultima actualizacion:** 05/03/2026  
-**URL en vivo:** http://productapi-mpn.centralus.cloudapp.azurecrmpn.azurecrmpn.cloudapp.azurecom
+**Ultima actualizacion:** 07/03/2026  
+**URL de Ingress (IP):** http://172.168.96.52
