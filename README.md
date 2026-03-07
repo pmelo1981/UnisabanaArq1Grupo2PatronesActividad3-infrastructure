@@ -1,32 +1,33 @@
-# Infraestructura — Guía de verificación
+# Infraestructura â€” GuÃ­a de verificaciÃ³n
 
-Comprobaciones mínimas
+Comprobaciones mÃ­nimas
 ```bash
-# Estado de la aplicación en ArgoCD
+# Estado de la aplicaciÃ³n en ArgoCD
 kubectl get application productapi -n argocd -o jsonpath='{.status.sync.status} {.status.health.status}'
 
 # Ver pods en el namespace productapi
 kubectl get pods -n productapi -o wide
 
-# Forzar re-evaluación del repositorio en ArgoCD
+# Forzar re-evaluaciÃ³n del repositorio en ArgoCD
 kubectl patch application productapi -n argocd -p '{"metadata":{"annotations":{"argocd.argoproj.io/refresh":"hard"}}}' --type=merge
 ```
 
-Acceso a ArgoCD (ejemplo)
-```
-http://172.169.162.125
+Acceso a ArgoCD
+```bash
+# Obtener URL del servicio argocd-server
+kubectl -n argocd get svc argocd-server
 ```
 
-Credenciales (admin) — confirmar en entorno por seguridad
+Credenciales (admin)
 ```
 Usuario: admin
-Contraseña: <ver infra docs>
+ContraseÃ±a: im43l6M5zfRwkBcY
 ```
 
-Imagen desplegada (según `helm/values-acr.yaml`)
-```
-productapiacrmpn.azurecr.io/productapi:8e69a02dc456a0b837aa6e7ba33330babe1f5c21
-```
+Imagen desplegada
+```text
+productapiacrmpn.azurecr.io/productapi:0b09ff4
+
 
 **Ultima actualizacion:** 07/03/2026  
-**URL de Ingress (IP):** http://172.168.96.52
+**URL en vivo:** http://productapi-mpn.centralus.cloudapp.azurecrmpn.azurecrmpn.cloudapp.azurecom
