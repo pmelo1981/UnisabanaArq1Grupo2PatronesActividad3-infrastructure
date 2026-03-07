@@ -12,7 +12,7 @@ kubectl get pods -n productapi -o wide
 kubectl patch application productapi -n argocd -p '{"metadata":{"annotations":{"argocd.argoproj.io/refresh":"hard"}}}' --type=merge
 ```
 
-Acceso a ArgoCD (ejemplo)
+Acceso a ArgoCD (ejemplo):
 ```
 http://172.169.162.125
 ```
@@ -28,5 +28,5 @@ Imagen desplegada (según `helm/values-acr.yaml`)
 productapiacrmpn.azurecr.io/productapi:8e69a02dc456a0b837aa6e7ba33330babe1f5c21
 ```
 
-**Ultima actualizacion:** 07/03/2026  
+**Última actualizacion:** 07/03/2026  
 **URL de Ingress (IP):** http://172.168.96.52
